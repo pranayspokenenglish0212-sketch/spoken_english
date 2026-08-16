@@ -46,6 +46,23 @@ class EnquiryCreate(BaseModel):
     message: Optional[str] = Field(default=None, max_length=1000)
 
 
+# --- Feedback Models ---
+class Feedback(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    student_name: str
+    rating: int
+    comment: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class FeedbackCreate(BaseModel):
+    student_name: str = Field(min_length=2, max_length=100)
+    rating: int = Field(ge=1, le=5)  # Restricts rating strictly between 1 and 5
+    comment: str = Field(min_length=5, max_length=1000)
+
+
 # =========================
 # Routes
 # =========================
@@ -54,6 +71,7 @@ async def root():
     return {"message": "Pranay Sir's Spoken English API is live"}
 
 
+# --- Enquiry Routes ---
 @api_router.post("/enquiries", response_model=Enquiry, status_code=201)
 async def create_enquiry(payload: EnquiryCreate):
     enquiry = Enquiry(**payload.model_dump())
@@ -76,6 +94,30 @@ async def list_enquiries(limit: int = 100):
     return items
 
 
+# --- Feedback Routes ---
+@api_router.post("/feedback", response_model=Feedback, status_code=201)
+async def create_feedback(payload: FeedbackCreate):
+    feedback = Feedback(**payload.model_dump())
+    doc = feedback.model_dump()
+    doc['created_at'] = doc['created_at'].isoformat()
+    await db.feedback.insert_one(doc)
+    return feedback
+
+
+@api_router.get("/feedback", response_model=List[Feedback])
+async def list_feedback(limit: int = 100):
+    cursor = db.feedback.find({}, {"_id": 0}).sort("created_at", -1).limit(limit)
+    items = await cursor.to_list(limit)
+    for item in items:
+        if isinstance(item.get('created_at'), str):
+            try:
+                item['created_at'] = datetime.fromisoformat(item['created_at'])
+            except ValueError:
+                item['created_at'] = datetime.now(timezone.utc)
+    return items
+
+
+# --- Stats Route ---
 @api_router.get("/stats")
 async def stats():
     """Public-facing stats for the landing page."""
