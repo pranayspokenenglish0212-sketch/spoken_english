@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pranay Sir's Spoken English Academy</title>
+    <title>Pranay Spoken English & Personality Development Classes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
@@ -30,7 +31,7 @@
             z-index: 100; 
         }
         .nav-container { 
-            max-width: 1100px; 
+            max-width: 1200px; 
             margin: 0 auto; 
             display: flex; 
             justify-content: space-between; 
@@ -38,18 +39,20 @@
             padding: 18px 20px; 
         }
         .logo { 
-            font-size: 24px; 
+            font-size: 20px; 
             font-weight: 800; 
             color: var(--primary); 
             letter-spacing: -0.5px;
+            line-height: 1.2;
         }
-        .logo span { color: var(--accent); }
+        .logo span { color: var(--accent); display: block; font-size: 14px; font-weight: 600; }
         nav a { 
-            margin-left: 22px; 
+            margin-left: 20px; 
             text-decoration: none; 
             color: #4a5568; 
             font-weight: 600; 
             transition: color 0.2s ease;
+            white-space: nowrap;
         }
         nav a:hover { color: var(--secondary); }
 
@@ -61,7 +64,7 @@
             padding: 110px 20px; 
         }
         #home h1 { 
-            font-size: 46px; 
+            font-size: 42px; 
             font-weight: 800;
             margin-bottom: 15px; 
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -69,7 +72,7 @@
         #home p { 
             font-size: 20px; 
             color: #e2e8f0; 
-            max-width: 700px;
+            max-width: 750px;
             margin: 0 auto 35px auto; 
         }
         .stats { 
@@ -205,7 +208,7 @@
             font-size: 15px;
         }
 
-        /* Educator Section */
+        /* Educator Section - Updated for Mobile Compatibility */
         .profile-flex { 
             display: flex; 
             gap: 40px; 
@@ -216,16 +219,20 @@
             border-radius: 16px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
-        .profile-image-container {
+        .profile-image-wrapper {
             flex: 0 0 220px;
+            width: 220px;
             height: 220px;
+            margin: 0 auto;
+        }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 50%;
             border: 6px solid var(--light-bg);
-            background-color: #edf2f7;
-            background-image: url('./assets/pranay.jpeg'); 
-            background-size: cover;
-            background-position: center;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            display: block;
         }
         .profile-text { 
             flex: 1; 
@@ -247,13 +254,35 @@
             border: 1px solid var(--accent);
         }
         
+        /* Feedback Section */
+        #reviews {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .feedback-card {
+            border: 1px solid #edf2f7;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        
         /* Contact Section */
         .contact-container { 
             display: flex; 
             gap: 45px; 
             flex-wrap: wrap; 
         }
-        .contact-info {  flex: 1; min-width: 280px; }
+        .contact-info { flex: 1; min-width: 280px; }
         .contact-info h3 {
             font-size: 24px;
             color: var(--primary);
@@ -298,7 +327,7 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        input, textarea, button { 
+        input, select, textarea, button { 
             display: block; 
             width: 100%; 
             margin: 15px 0; 
@@ -309,7 +338,7 @@
             font-size: 15px; 
             transition: all 0.2s;
         }
-        input:focus, textarea:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--secondary);
             box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
@@ -329,6 +358,11 @@
             background: var(--primary); 
             transform: translateY(-1px);
         }
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
         
         footer { 
             text-align: center; 
@@ -341,23 +375,29 @@
         footer p span { color: var(--accent); }
 
         @media (max-width: 768px) {
-            #home h1 { font-size: 34px; }
+            #home h1 { font-size: 30px; }
             .profile-flex { flex-direction: column; text-align: center; }
+            .nav-container { flex-direction: column; text-align: center; gap: 15px; }
+            nav a { margin: 0 8px; }
+            .about-gallery { grid-template-columns: 1fr; }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <!-- Navigation Menu -->
     <header>
         <div class="nav-container">
-            <div class="logo">Pranay Sir's<span> Academy</span></div>
+            <div class="logo">
+                Pranay Spoken English
+                <span>& Personality Development Classes</span>
+            </div>
             <nav>
                 <a href="#home">Home</a>
                 <a href="#about">About</a>
                 <a href="#courses">Courses</a>
                 <a href="#educator">Mentor</a>
+                <a href="#reviews">Reviews</a>
                 <a href="#contact">Contact</a>
             </nav>
         </div>
@@ -365,7 +405,7 @@
 
     <!-- 1. Home Section -->
     <section id="home">
-        <h1>Unleash Your True English Fluency</h1>
+        <h1>Pranay Spoken English & Personality Development Classes</h1>
         <p>Erase your public speaking hesitation, gain absolute clarity, and build professional confidence with step-by-step training.</p>
         <div class="stats">
             <div class="stat-box"><strong>5000+</strong> Students Trained</div>
@@ -390,16 +430,16 @@
 
     <!-- 2. About Us Section -->
     <section id="about">
-        <h2>About Our Academy</h2>
-        <p>At Pranay Sir's Spoken English Academy, we simplify the journey to fluent communication. Instead of making you memorize complex grammar frameworks, we utilize intuitive conversation techniques, practical situational practices, and real-time feedback loops to transform how you speak.</p>
+        <h2>About Our Classes</h2>
+        <p>At Pranay Spoken English & Personality Development Classes, we simplify the journey to fluent communication. Instead of making you memorize complex grammar frameworks, we utilize intuitive conversation techniques, practical situational practices, and real-time feedback loops to transform how you speak.</p>
         <p>Our focus is on unlocking natural dialogue, reducing performance anxiety, and building a conversational personality that commands respect in boardrooms, colleges, and social gatherings alike.</p>
         
         <!-- About Images Gallery -->
         <div class="about-gallery">
-            <img src="./assets/class1.jpeg" alt="Academy Class Session 1">
-            <img src="./assets/class2.jpeg" alt="Academy Class Session 2">
-            <img src="./assets/class3.jpeg" alt="Academy Class Session 3">
-            <img src="./assets/class4.jpeg" alt="Academy Class Session 4">
+            <img src="./assets/class1.jpeg" alt="Interactive Classroom Session">
+            <img src="./assets/class2.jpeg" alt="Group Discussion Training">
+            <img src="./assets/class3.jpeg" alt="Public Speaking Practice">
+            <img src="./assets/class4.jpeg" alt="One-on-One Feedback Session">
         </div>
     </section>
 
@@ -412,8 +452,8 @@
                 <p>Designed for professionals, job candidates, and ambitious students. Master corporate business communication, refine your pronunciation, and develop premium sentence structuring to express complex ideas effortlessly.</p>
             </div>
             <div class="course-card" style="border-top-color: var(--accent);">
-                <h3>Public Speaking & Interviews</h3>
-                <p>Conquer the boardroom and stage fear. This program deep-dives into structured speech building, body language mastery, group discussions (GD), mock HR interview simulations, and presentation styles.</p>
+                <h3>Public Speaking & Personality Development</h3>
+                <p>Conquer stage fear and social hesitation. This program deep-dives into structured speech building, body language mastery, group discussions (GD), mock HR interview simulations, and presentation styles.</p>
             </div>
         </div>
     </section>
@@ -422,17 +462,47 @@
     <section id="educator">
         <h2>Meet Your Mentor</h2>
         <div class="profile-flex">
-            <div class="profile-image-container"></div>
+            <!-- Updated Mentor Image Implementation -->
+            <div class="profile-image-wrapper">
+                <img src="./assets/pranay.jpeg" alt="Photo of Pranay Sir" class="profile-img">
+            </div>
             <div class="profile-text">
                 <h3>Pranay Sir</h3>
-                <div class="qualification-badge">MBA | Founder & Lead Coach</div>
+                <div class="qualification-badge">MBA | Lead Personality Coach</div>
                 <p>With an academic background in business administration (MBA) and more than 12 years of hands-on language training experience, Pranay Sir understands exactly where the gaps in corporate and academic communication lie.</p>
                 <p style="margin-top: 10px;">Having mentored more than 5,000 professionals and students, his teaching modules are tailored directly to breaking internal barriers, building confidence, and restructuring thought processes so that English flows naturally.</p>
             </div>
         </div>
     </section>
 
-    <!-- 5. Contact Us & Form Section -->
+    <!-- 5. Student Reviews & Feedback Section -->
+    <section id="reviews">
+        <h2>Student Reviews</h2>
+        
+        <div id="reviews-container" class="feedback-grid">
+            <p style="grid-column: 1/-1; text-align: center; color: #718096;">Loading reviews...</p>
+        </div>
+
+        <div class="form-container" style="margin-top: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <h3>Leave Your Feedback</h3>
+            <form id="feedbackForm">
+                <input type="text" id="student_name" placeholder="Your Name" required>
+                
+                <select id="rating" required>
+                    <option value="5">⭐⭐⭐⭐⭐ (5 Stars - Excellent)</option>
+                    <option value="4">⭐⭐⭐⭐ (4 Stars - Very Good)</option>
+                    <option value="3">⭐⭐⭐ (3 Stars - Good)</option>
+                    <option value="2">⭐⭐ (2 Stars - Average)</option>
+                    <option value="1">⭐ (1 Star - Poor)</option>
+                </select>
+                
+                <textarea id="comment" placeholder="Write your review here..." required></textarea>
+                <button type="submit" id="feedbackSubmitBtn">Submit Feedback</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 6. Contact Us & Form Section -->
     <section id="contact">
         <h2>Reach Out & Enquire</h2>
         <div class="contact-container">
@@ -472,40 +542,138 @@
                     <input type="tel" id="phone" placeholder="Your Phone Number" required>
                     <input type="text" id="course" placeholder="Course Name (e.g., Advance Pro English)">
                     <textarea id="message" placeholder="Ask questions or tell us a preferred time for your appointment..."></textarea>
-                    <button type="submit">Submit Enquiry</button>
+                    <button type="submit" id="enquirySubmitBtn">Submit Enquiry</button>
                 </form>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 <span>Pranay Sir's Spoken English Academy</span>. All Rights Reserved.</p>
+        <p>&copy; 2026 <span>Pranay Spoken English & Personality Development Classes</span>. All Rights Reserved.</p>
     </footer>
 
+    <!-- Combined JavaScript -->
     <script>
-        document.getElementById('enquiryForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const payload = {
-                name: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                course: document.getElementById('course').value || null,
-                message: document.getElementById('message').value || null
-            };
+        const API_BASE_URL = 'https://pranay-sirs-spoken-english.onrender.com/api';
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        async function loadFeedback() {
+            const container = document.getElementById('reviews-container');
+            if (!container) return;
+
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/enquiries', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if(response.ok) {
-                    alert('Enquiry submitted successfully! We will get back to you shortly.');
-                    document.getElementById('enquiryForm').reset();
-                } else {
-                    alert('Submission failed. Please check the inputs.');
+                const response = await fetch(`${API_BASE_URL}/feedback`);
+                if (!response.ok) throw new Error('Failed to fetch reviews');
+                
+                const reviews = await response.json();
+
+                if (!reviews || reviews.length === 0) {
+                    container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #718096;">No reviews yet. Be the first to leave one!</p>';
+                    return;
                 }
+
+                container.innerHTML = reviews.map(review => `
+                    <div class="feedback-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong>${escapeHtml(review.student_name)}</strong>
+                            <span style="color: #f39c12; letter-spacing: 2px;">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                        </div>
+                        <p style="color: #4a5568; font-size: 14px;">${escapeHtml(review.comment)}</p>
+                    </div>
+                `).join('');
             } catch (err) {
                 console.error(err);
-                alert('Could not connect to the backend server. Make sure your Anaconda backend is running.');
+                container.innerHTML = '<p style="grid-column: 1/-1; color: #e53e3e; text-align: center;">Unable to load reviews at this time.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFeedback();
+
+            // Feedback form handler
+            const feedbackForm = document.getElementById('feedbackForm');
+            const feedbackBtn = document.getElementById('feedbackSubmitBtn');
+
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    feedbackBtn.disabled = true;
+                    feedbackBtn.textContent = 'Submitting...';
+
+                    const payload = {
+                        student_name: document.getElementById('student_name').value.trim(),
+                        rating: parseInt(document.getElementById('rating').value),
+                        comment: document.getElementById('comment').value.trim()
+                    };
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/feedback`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            alert('Thank you for your feedback!');
+                            feedbackForm.reset();
+                            await loadFeedback();
+                        } else {
+                            alert('Failed to submit feedback. Please check your inputs.');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Network error. Could not reach server.');
+                    } finally {
+                        feedbackBtn.disabled = false;
+                        feedbackBtn.textContent = 'Submit Feedback';
+                    }
+                });
+            }
+
+            // Enquiry form handler
+            const enquiryForm = document.getElementById('enquiryForm');
+            const enquiryBtn = document.getElementById('enquirySubmitBtn');
+
+            if (enquiryForm) {
+                enquiryForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    enquiryBtn.disabled = true;
+                    enquiryBtn.textContent = 'Submitting...';
+
+                    const payload = {
+                        name: document.getElementById('name').value.trim(),
+                        phone: document.getElementById('phone').value.trim(),
+                        course: document.getElementById('course').value.trim() || null,
+                        message: document.getElementById('message').value.trim() || null
+                    };
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/enquiries`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            alert('Enquiry submitted successfully! We will get back to you shortly.');
+                            enquiryForm.reset();
+                        } else {
+                            alert('Submission failed. Please check the inputs.');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Could not connect to the backend server.');
+                    } finally {
+                        enquiryBtn.disabled = false;
+                        enquiryBtn.textContent = 'Submit Enquiry';
+                    }
+                });
             }
         });
     </script>
