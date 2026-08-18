@@ -4,6 +4,8 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import smtplib
+from email.mime.text import MIMEText
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
@@ -12,6 +14,13 @@ from datetime import datetime, timezone
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
+
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
@@ -23,6 +32,50 @@ app = FastAPI(title="Pranay Sir's Spoken English API")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
+
+
+# =========================
+# Email Sending Utility
+# =========================
+def send_enquiry_email(enquiry_data: dict):
+    """Sends an email notification when a new enquiry is submitted."""
+    sender_email = "Pranayspokenenglish0212@gmail.com"
+    # App password render environment variables se aayega
+    sender_password = os.environ.get("GMAIL_APP_PASSWORD") 
+    receiver_email = "Pranayspokenenglish0212@gmail.com"
+
+    if not sender_password:
+        logger.warning("GMAIL_APP_PASSWORD environment variable not set. Email notification skipped.")
+        return
+
+    subject = f"🚨 New Enquiry Received: {enquiry_data.get('name')}"
+    body = f"""
+    Hello Pranay Sir,
+
+    Website par ek nayi student enquiry aayi hai:
+
+    --------------------------------------------------
+    👤 Student Name : {enquiry_data.get('name')}
+    📞 Phone Number : {enquiry_data.get('phone')}
+    📚 Course       : {enquiry_data.get('course', 'Not Specified')}
+    💬 Message      : {enquiry_data.get('message', 'No Message Provided')}
+    --------------------------------------------------
+
+    Date/Time (UTC): {enquiry_data.get('created_at')}
+    """
+
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, receiver_email, msg.as_string())
+        logger.info(f"Enquiry notification email sent successfully for {enquiry_data.get('name')}!")
+    except Exception as e:
+        logger.error(f"Failed to send enquiry email: {e}")
 
 
 # =========================
@@ -77,7 +130,13 @@ async def create_enquiry(payload: EnquiryCreate):
     enquiry = Enquiry(**payload.model_dump())
     doc = enquiry.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
+    
+    # Save to MongoDB
     await db.enquiries.insert_one(doc)
+    
+    # Send Email Notification
+    send_enquiry_email(doc)
+    
     return enquiry
 
 
@@ -141,12 +200,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
 
 
 @app.on_event("shutdown")
